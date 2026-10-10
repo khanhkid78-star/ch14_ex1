@@ -14,6 +14,7 @@ if ($action == NULL) {
 }  
 
 $categoryDB = new CategoryDB();
+$productDB = new ProductDB();
 
 if ($action == 'list_products') {
     $category_id = filter_input(INPUT_GET, 'category_id', 
@@ -25,7 +26,7 @@ if ($action == 'list_products') {
     // Get product and category data
     $current_category = $categoryDB->getCategory($category_id);
     $categories = $categoryDB->getCategories();
-    $products = ProductDB::getProductsByCategory($category_id);
+    $products = $productDB->getProductsByCategory($category_id);
 
     // Display the product list
     include('product_list.php');
@@ -37,7 +38,7 @@ if ($action == 'list_products') {
             FILTER_VALIDATE_INT);
 
     // Delete the product
-    ProductDB::deleteProduct($product_id);
+    $productDB->deleteProduct($product_id);
 
     // Display the Product List page for the current category
     header("Location: .?category_id=$category_id");
@@ -61,10 +62,9 @@ if ($action == 'list_products') {
         $product->setCode($code);
         $product->setName($name);
         $product->setPrice($price);
-        ProductDB::addProduct($product);
+        $productDB->addProduct($product);
 
         // Display the Product List page for the current category
         header("Location: .?category_id=$category_id");
     }
 }
-?>
