@@ -9,8 +9,9 @@ class CategoryDB {
         
         $categories = array();
         foreach ($statement as $row) {
-            $category = new Category($row['categoryID'],
-                                     $row['categoryName']);
+            $category = new Category();
+            $category->setID($row['categoryID']);
+            $category->setName($row['categoryName']);
             $categories[] = $category;
         }
         return $categories;
